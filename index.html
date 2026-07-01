@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toys Feature Tool 🧸</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green-deep: #5B2D8E;
+            --green-mid: #8B4DB8;
+            --green-light: #C06C84;
+            --green-pale: #F4C2D4;
+            --cream: #FDF5F9;
+            --cream-dark: #F5E6EF;
+            --soil: #C06C84;
+            --soil-light: #E8A0B8;
+            --white: #FAFAF7;
+            --text-dark: #2D1040;
+            --text-mid: #5B2D6E;
+            --shadow: rgba(91, 45, 142, 0.18);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #3D1A6B;
+            background-image:
+                radial-gradient(ellipse at 20% 10%, rgba(192,108,132,0.18) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 90%, rgba(139,77,184,0.2) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%238B4DB8' fill-opacity='0.08'%3E%3Cpath d='M30 0 C20 10 10 20 0 30 C10 40 20 50 30 60 C40 50 50 40 60 30 C50 20 40 10 30 0Z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: var(--cream);
+            border-radius: 28px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(192,108,132,0.3);
+            overflow: hidden;
+            animation: fadeUp 0.6s ease-out;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── HEADER ── */
+        .header {
+            background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-mid) 60%, var(--green-light) 100%);
+            padding: 50px 40px 45px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M40 0 Q55 15 70 20 Q80 40 70 60 Q55 65 40 80 Q25 65 10 60 Q0 40 10 20 Q25 15 40 0Z'/%3E%3C/g%3E%3C/svg%3E") repeat;
+            pointer-events: none;
+        }
+
+        .header-leaf-left,
+        .header-leaf-right {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 5rem;
+            opacity: 0.15;
+            pointer-events: none;
+            line-height: 1;
+        }
+        .header-leaf-left { left: 30px; }
+        .header-leaf-right { right: 30px; transform: translateY(-50%) scaleX(-1); }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--cream);
+            line-height: 1.15;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+
+        h1 .accent {
+            color: var(--green-pale);
+        }
+
+        .subtitle {
+            color: rgba(245,240,232,0.75);
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 10px;
+            letter-spacing: 0.3px;
+            position: relative;
+        }
+
+        /* ── CONTROLS ── */
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            padding: 35px 40px;
+            background: var(--cream-dark);
+            border-bottom: 2px solid rgba(192,108,132,0.25);
+        }
+
+        .control-group { display: flex; flex-direction: column; gap: 8px; }
+
+        label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--green-deep);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input, select {
+            padding: 13px 15px;
+            border: 2px solid rgba(192,108,132,0.4);
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            background: var(--white);
+            color: var(--text-dark);
+            transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--green-mid);
+            box-shadow: 0 0 0 4px rgba(139,77,184,0.15);
+            transform: translateY(-1px);
+        }
+
+        /* ── GRID ── */
+        .scripts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: 24px;
+            padding: 35px 40px 40px;
+        }
+
+        .script-section {
+            background: var(--white);
+            border-radius: 18px;
+            border: 2px solid rgba(192,108,132,0.25);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+        }
+
+        .script-section:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px var(--shadow);
+            border-color: var(--green-light);
+        }
+
+        .script-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 22px;
+            background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+            gap: 12px;
+        }
+
+        .script-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--cream);
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .script-icon { font-size: 1.3rem; }
+
+        .copy-btn {
+            background: var(--green-pale);
+            color: var(--green-deep);
+            border: none;
+            padding: 9px 18px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 13px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+        }
+
+        .copy-btn:hover {
+            background: var(--cream);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .copy-btn:active { transform: translateY(0); }
+
+        .script-content {
+            padding: 20px 22px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            line-height: 1.75;
+            color: var(--text-dark);
+            font-size: 13.5px;
+            min-height: 110px;
+        }
+
+        /* ── MEMBERSHIP ── */
+        .membership-info {
+            margin: 0 40px 40px;
+            padding: 25px;
+            background: var(--cream-dark);
+            border-radius: 16px;
+            border: 2px solid rgba(192,108,132,0.25);
+        }
+
+        .membership-info h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--green-deep);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .membership-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .membership-badge {
+            padding: 7px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: transform 0.2s;
+            cursor: default;
+        }
+
+        .membership-badge:hover { transform: translateY(-2px); }
+
+        .artist       { background: linear-gradient(135deg,#ff6b6b,#ee5a6f); color:#fff; }
+        .member       { background: linear-gradient(135deg,#4ecdc4,#44a08d); color:#fff; }
+        .vip          { background: linear-gradient(135deg,#45b7d1,#3498db); color:#fff; }
+        .vip-gold     { background: linear-gradient(135deg,#f39c12,#e67e22); color:#fff; }
+        .platinum     { background: linear-gradient(135deg,#95a5a6,#7f8c8d); color:#fff; }
+        .elite        { background: linear-gradient(135deg,#9b59b6,#8e44ad); color:#fff; }
+        .hall-of-fame { background: linear-gradient(135deg,#e74c3c,#c0392b); color:#fff; }
+        .diamond      { background: linear-gradient(135deg,#34495e,#2c3e50); color:#fff; }
+
+        /* ── FOOTER ── */
+        .footer {
+            text-align: center;
+            color: rgba(91,45,142,0.55);
+            font-size: 0.85rem;
+            padding: 20px 40px 30px;
+            border-top: 2px solid rgba(192,108,132,0.2);
+        }
+
+        /* ── NOTIFICATION ── */
+        .notification {
+            position: fixed;
+            top: 28px;
+            right: 28px;
+            background: linear-gradient(135deg, var(--green-mid), var(--green-light));
+            color: white;
+            padding: 15px 22px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            transform: translateX(350px);
+            transition: transform 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
+            z-index: 1000;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .notification.show { transform: translateX(0); }
+        .notification::before { content: '✓'; font-size: 20px; font-weight: 900; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .scripts-grid { grid-template-columns: 1fr; padding: 25px 25px 30px; }
+            .controls { padding: 25px; }
+            .membership-info { margin: 0 25px 30px; }
+            .footer { padding: 15px 25px 25px; }
+            h1 { font-size: 2rem; }
+        }
+
+        @media (max-width: 600px) {
+            .header { padding: 35px 25px 30px; }
+            .script-header { flex-wrap: wrap; }
+            .copy-btn { width: 100%; text-align: center; }
+            .header-leaf-left, .header-leaf-right { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-leaf-left">🎀</div>
+        <div class="header-leaf-right">🎀</div>
+        <h1>🧸 <span class="accent">Toys</span> Feature Tool 🧸</h1>
+        <p class="subtitle">Genereer professionele feature posts met één klik</p>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="controls">
+        <div class="control-group">
+            <label for="memberName">👤 Naam</label>
+            <input type="text" id="memberName" placeholder="Voer gebruikersnaam in...">
+        </div>
+        <div class="control-group">
+            <label for="membershipStatus">⭐ Membership Status</label>
+            <select id="membershipStatus">
+                <option value="Artist">Artist</option>
+                <option value="Member">Member</option>
+                <option value="Vip Member">Vip Member</option>
+                <option value="Vip Gold Member">Vip Gold Member</option>
+                <option value="Platinum Member">Platinum Member</option>
+                <option value="Elite Member">Elite Member</option>
+                <option value="Hall of Fame Member">Hall of Fame Member</option>
+                <option value="Diamond Member">Diamond Member</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label for="adminName">👨‍💼 Admin Naam</label>
+            <input type="text" id="adminName" placeholder="Admin naam..." value="Inge">
+        </div>
+        <div class="control-group">
+            <label for="adminHandle">📱 Admin Handle</label>
+            <input type="text" id="adminHandle" placeholder="@handle..." value="@ingedavid">
+        </div>
+    </div>
+
+    <!-- SCRIPTS GRID -->
+    <!-- Order: Main, Feature Comment, Special Feature (Original Photo), Extra Comment -->
+    <div class="scripts-grid">
+
+        <div class="script-section">
+            <div class="script-header">
+                <div class="script-title"><span class="script-icon">🎯</span> MAIN FEATURE POST</div>
+                <button class="copy-btn" onclick="copyScript('toys-feature')">📋 Kopieer</button>
+            </div>
+            <div class="script-content" id="toys-feature"></div>
+        </div>
+
+        <div class="script-section">
+            <div class="script-header">
+                <div class="script-title"><span class="script-icon">💬</span> FEATURE COMMENT</div>
+                <button class="copy-btn" onclick="copyScript('feature-comment')">📋 Kopieer</button>
+            </div>
+            <div class="script-content" id="feature-comment"></div>
+        </div>
+
+        <div class="script-section">
+            <div class="script-header">
+                <div class="script-title"><span class="script-icon">📸</span> ORIGINAL PHOTO COMMENT</div>
+                <button class="copy-btn" onclick="copyScript('original-photo-comment')">📋 Kopieer</button>
+            </div>
+            <div class="script-content" id="original-photo-comment"></div>
+        </div>
+
+        <div class="script-section">
+            <div class="script-header">
+                <div class="script-title"><span class="script-icon">✨</span> EXTRA COMMENT</div>
+                <button class="copy-btn" onclick="copyScript('extra-comment')">📋 Kopieer</button>
+            </div>
+            <div class="script-content" id="extra-comment"></div>
+        </div>
+
+    </div>
+
+    <!-- MEMBERSHIP -->
+    <div class="membership-info">
+        <h3>🧸 Membership Levels</h3>
+        <div class="membership-badges">
+            <span class="membership-badge artist">Artist</span>
+            <span class="membership-badge member">Member</span>
+            <span class="membership-badge vip">VIP Member</span>
+            <span class="membership-badge vip-gold">VIP Gold</span>
+            <span class="membership-badge platinum">Platinum</span>
+            <span class="membership-badge elite">Elite</span>
+            <span class="membership-badge hall-of-fame">Hall of Fame</span>
+            <span class="membership-badge diamond">Diamond</span>
+        </div>
+    </div>
+
+    <div class="footer">
+        Made with ❤️ for Toys Community | © 2024
+    </div>
+</div>
+
+<div id="notification" class="notification">
+    Tekst succesvol gekopieerd!
+</div>
+
+<script>
+    const scripts = {
+        'toys-feature': `#snap_toys_specialfeature
+.
+Featured Snap {membershipStatus}: @{name}
+✨ C O N G R A T U L A T I O N S ✨
+__________________________________
+.
+💫💫   PHOTO OF THE MONTH   💫💫
+.
+Selected by Page Admin :
+{adminName} : {adminHandle}
+.
+This feature is worth 1 point towards your membership!
+.
+Follow vero.co/snap_kingdom for more pages to tag and follow
+Visit our Website:  www.rawkingdomarts.com
+.
+Contact vero.co/snap_community_member
+For your membership questions and level validations
+.
+#snap_community #snap_toys #vero #verofriends #photoofthemonth
+.
+#snap_toys_photoofthemonth
+#snap_toys_{name}
+#snap_featured_{name}
+.
+.`,
+
+        'feature-comment': `@{name} Congratulations! 🎉 Brilliant Work! Your photography has been highlighted as Photo of the Month on Snap Toys. Keep tagging your wonderful pictures with #snap_toys`,
+
+        'original-photo-comment': `@{name} Congratulations! 💫
+Congratulations on your special feature "Photo of the Month"! 🎉🎉👏👏
+Brilliant Work!!!`,
+
+        'extra-comment': `@{name} Congratulations! 💫
+This feature is worth 1 point towards your membership!
+Brilliant Work!`
+    };
+
+    function updateScripts() {
+        const name           = document.getElementById('memberName').value     || 'name';
+        const membershipStatus = document.getElementById('membershipStatus').value;
+        const adminName      = document.getElementById('adminName').value      || 'Admin';
+        const adminHandle    = document.getElementById('adminHandle').value    || '@admin';
+
+        Object.keys(scripts).forEach(key => {
+            const el = document.getElementById(key);
+            let c = scripts[key];
+            c = c.replace(/{name}/g,             name);
+            c = c.replace(/{membershipStatus}/g, membershipStatus);
+            c = c.replace(/{adminName}/g,        adminName);
+            c = c.replace(/{adminHandle}/g,      adminHandle);
+            el.textContent = c;
+        });
+    }
+
+    function copyScript(id) {
+        const text = document.getElementById(id).textContent;
+        navigator.clipboard.writeText(text).then(showNotification).catch(() => {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.cssText = 'position:fixed;left:-9999px;top:-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            showNotification();
+        });
+    }
+
+    function showNotification() {
+        const n = document.getElementById('notification');
+        n.classList.add('show');
+        setTimeout(() => n.classList.remove('show'), 3000);
+    }
+
+    document.getElementById('memberName').addEventListener('input', updateScripts);
+    document.getElementById('membershipStatus').addEventListener('change', updateScripts);
+    document.getElementById('adminName').addEventListener('input', updateScripts);
+    document.getElementById('adminHandle').addEventListener('input', updateScripts);
+
+    updateScripts();
+</script>
+</body>
+</html>
